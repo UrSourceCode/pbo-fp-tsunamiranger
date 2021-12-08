@@ -2,7 +2,7 @@ package tsunamiRanger;
 
 /*
 Copyright (c) 6/23/2014, Dylan Kobayashi
-Version: 2/1/2018
+Version: 2/9/2016
 Laboratory for Advanced Visualization and Applications, University of Hawaii at Manoa.
 All rights reserved.
 
@@ -86,9 +86,9 @@ public class EZ extends JPanel {
 
   /** Used for external referencing. */
   public static EZ app;
-  private static ArrayList<JFrame>     openWindows = new ArrayList<>();
+  private static ArrayList<JFrame> 	openWindows = new ArrayList<>();
   private static ArrayList<Boolean> openWindowsStatus = new ArrayList<>();
-  private static ArrayList<EZ>         openWindowEz = new ArrayList<>();
+  private static ArrayList<EZ> 		openWindowEz = new ArrayList<>();
 
   /** Width. This needs to match the values given in the applet properties or there may be visual chopping. */
   private static int WWIDTH;
@@ -112,10 +112,6 @@ public class EZ extends JPanel {
   /**Used for silent error tracking.*/
   private static int errorCounter = 0;
   private static String errorMsg = "";
-  
-  /** Used for scale tracking on JDKv9. Some cases where starting scale is 2. */
-  private static volatile double startingPaintScaleX = 1;
-  private static volatile double startingPaintScaleY = 1;
 
   /**
    * This frustrating variable is necessary to get keyboard input detection working. Determined through trial and error.
@@ -195,10 +191,6 @@ public class EZ extends JPanel {
     Graphics2D g2 = (Graphics2D) g;
     g2.setColor(backgroundColor); // wash the background with specified bg color to prevent ghosting.
     g2.fillRect(0, 0, WWIDTH + 100, WHEIGHT + 100);
-    
-    // Track the scale the canvas originally starts at
-    startingPaintScaleX = g2.getTransform().getScaleX();
-    startingPaintScaleY = g2.getTransform().getScaleY();
 
     for (int i = 0; i < elements.size(); i++) {
       if(!elements.get(i).hasParent()){
@@ -207,21 +199,6 @@ public class EZ extends JPanel {
     }
 
   } // end paint
-  
-  /**
-   * Retrieves the canvas' starting x scale.
-   * @return double value of the starting x scale.
-  */
-  public static double getStartingPaintScaleX() {
-	  return startingPaintScaleX;
-  }
-  /**
-   * Retrieves the canvas' starting y scale.
-   * @return double value of the starting x scale.
-  */
-  public static double getStartingPaintScaleY() {
-	  return startingPaintScaleY;
-  }
 
   /**
    * This method will set the background color to the given color. Don't forget to import the Color when using this.
@@ -276,12 +253,12 @@ public class EZ extends JPanel {
    * 
    */
   public static void refreshScreenOfAllActiveWindows(){
-      refreshScreen();
-      for(int i = 0; i < openWindows.size(); i++) {
-          if( openWindowsStatus.get(i) ) {
-              openWindowEz.get(i).repaint();
-          }
-      }
+	  refreshScreen();
+	  for(int i = 0; i < openWindows.size(); i++) {
+		  if( openWindowsStatus.get(i) ) {
+			  openWindowEz.get(i).repaint();
+		  }
+	  }
   }
   
   /**
@@ -422,37 +399,13 @@ public class EZ extends JPanel {
    * 
    * Color must be specified. Don't forget to import Color.
    * 
-   * Example usage: EZText t; t = EZ.addText( 200, 200, "Hello  World");
-   * 
-   * @param x center.
-   * @param y center.
-   * @param msg that will be displayed.
-   * @return the text.
-   */
-  public static EZText addText(int x, int y, String msg) {
-    return addText(x, y, msg, Color.BLACK, 10);
-  }
-
-  /**
-   * Adds text to the window. Returns the text for later manipulation. If not immediately assigned to a variable,
-   * chances are you will have this element stuck on screen which cannot be removed. As result in most cases you will
-   * want to assign it to a variable.
-   * 
-   * It might not be easy to calculate left or right bound until after creation since the x,y values are where the
-   * text's center will be placed.
-   * 
-   * Text cannot have their width and height manually set, that will depend on the content of the text. Using this
-   * addText() method will default the text size to 10px.
-   * 
-   * Color must be specified. Don't forget to import Color.
-   * 
-   * Example usage: EZText t; t = EZ.addText( 200, 200, "Hello World", Color.BLACK);
+   * Example usage: EZText t; t = EZ.addText( 200, 200, Color.BLACK, true);
    * 
    * @param x center.
    * @param y center.
    * @param msg that will be displayed.
    * @param c color of the text
-   * @return the text.
+   * @return the circle.
    */
   public static EZText addText(int x, int y, String msg, Color c) {
     return addText(x, y, msg, c, 10);
@@ -470,14 +423,14 @@ public class EZ extends JPanel {
    * 
    * Color must be specified. Don't forget to import Color.
    * 
-   * Example usage: EZText t; t = EZ.addText( 200, 200, "Hello World", Color.BLACK, 20);
+   * Example usage: EZText t; t = EZ.addText( 200, 200, Color.BLACK, true, 20);
    * 
    * @param x center.
    * @param y center.
    * @param msg that will be displayed.
    * @param c color of the text
    * @param fs size of the font in pixels.
-   * @return the text.
+   * @return the circle.
    */
   public static EZText addText(int x, int y, String msg, Color c, int fs) {
     EZText vc = new EZText(x, y, msg, c, fs);
@@ -498,7 +451,7 @@ public class EZ extends JPanel {
    * 
    * Color must be specified. Don't forget to import Color.
    * 
-   * Example usage: EZText t; t = EZ.addText("Arial", 200, 200, "Hello World", Color.BLACK, 20);
+   * Example usage: EZText t; t = EZ.addText("Arial", 200, 200, Color.BLACK, true, 20);
    * 
    * @param fontName to display the msg in. Must be available to the system. A nonexistent font will output a console error, but will not halt the program.
    * @param x center.
@@ -506,7 +459,7 @@ public class EZ extends JPanel {
    * @param msg that will be displayed.
    * @param c color of the text
    * @param fs size of the font in pixels.
-   * @return the text.
+   * @return the circle.
    */
   public static EZText addText(String fontName, int x, int y, String msg, Color c, int fs) {
     EZText vc = new EZText(x, y, msg, c, fs);
@@ -996,16 +949,6 @@ public class EZ extends JPanel {
    * @param height for the content area of the window.
    */
   public static int initialize(int width, int height) {
-    // First time 
-    String osName = System.getProperty("os.name").toLowerCase();
-    if(osName.indexOf("mac") >= 0){
-      try {
-        Runtime.getRuntime().exec("defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false");
-      } catch (IOException e) {
-        System.out.println("Unable to perform Mac keyboard change");
-      }
-    }
-    
     String windowName = "ICS111";
     JFrame frame = new JFrame(windowName);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1046,7 +989,7 @@ public class EZ extends JPanel {
    */
   public static void setCurrentWindow(int windowIndex) {
     if( windowIndex > -1 && windowIndex < openWindows.size() && openWindowsStatus.get(windowIndex) ) {
-        app = openWindowEz.get(windowIndex);
+    	app = openWindowEz.get(windowIndex);
     }
   }
   
@@ -1063,7 +1006,7 @@ public class EZ extends JPanel {
       openWindowsStatus.set(windowIndex, false);
     }
     else if( windowIndex != -9999) {
-        System.out.println("Invalid window index given:" + windowIndex + ". Not closing a window.");
+    	System.out.println("Invalid window index given:" + windowIndex + ". Not closing a window.");
     }
 //    //window checks: close if no windows. 1 window gets the close app on close. Renumber windows.
 //    if(openWindows.size() == 0) { System.exit(0); System.out.println("Closing program, no open windows."); }
@@ -1080,11 +1023,11 @@ public class EZ extends JPanel {
    * Will return the number of open windows.
    */
   public static int getNumberOfOpenWindows() {
-      int count = 0;
-      for(int i = 0; i < openWindows.size(); i++) {
-          if(openWindowsStatus.get(i)) { count++; }
-      }
-      return count;
+	  int count = 0;
+	  for(int i = 0; i < openWindows.size(); i++) {
+		  if(openWindowsStatus.get(i)) { count++; }
+	  }
+	  return count;
   }
   
   public static void trackedErrorPrint() {
@@ -1539,18 +1482,6 @@ abstract class EZElement {
    * @return the final AffineTransform that will be applied to the shape.
    */
   public static AffineTransform transformHelper(EZElement oe) {
-    return transformHelper(oe, false);
-  }
-
-  /**
-   * Returns the transform before being applied to the shape. The transform is affected by all groups this element is
-   * contained in.
-   * 
-   * @param oe The EZElement which to get the affine transform of.
-   * @param scaleAdjust Whether or not original scale adjustment should be taken into account.
-   * @return the final AffineTransform that will be applied to the shape.
-   */
-  public static AffineTransform transformHelper(EZElement oe, boolean scaleAdjust) {
     AffineTransform af = new AffineTransform();
     ArrayList<EZElement> ancestors = new ArrayList<EZElement>();
     EZElement temp;
@@ -1567,22 +1498,8 @@ abstract class EZElement {
       af.scale(temp.getScale(), temp.getScale());
       af.rotate(Math.toRadians(temp.getRotation()));
     }
-
-    /* Original code
-    // af.translate(oe.getXCenter(), oe.getYCenter());
-    // af.scale(oe.getScale(), oe.getScale());
-    */
-    // As of version 9, the canvas has a starting scale of 2.0 which messes with transform calculations
-    if (scaleAdjust) {
-        af.translate(oe.getXCenter() * EZ.getStartingPaintScaleX(), oe.getYCenter() * EZ.getStartingPaintScaleX());
-    } else {
-        af.translate(oe.getXCenter(), oe.getYCenter());
-    }
-    if (scaleAdjust) {
-        af.scale(oe.getScale() * EZ.getStartingPaintScaleX(), oe.getScale() * EZ.getStartingPaintScaleX());
-    } else {
-        af.scale(oe.getScale(), oe.getScale());
-    }
+    af.translate(oe.getXCenter(), oe.getYCenter());
+    af.scale(oe.getScale(), oe.getScale());
     af.rotate(Math.toRadians(oe.getRotation()));
     return af;
   } // end boundHelper
@@ -2008,7 +1925,7 @@ class EZText extends EZElement {
       // only print if the message has visible characters.
       if (msg.trim().length() > 0) {
         AffineTransform tmp = g2.getTransform();
-        g2.setTransform(EZElement.transformHelper(this, true));
+        g2.setTransform(EZElement.transformHelper(this));
         g2.drawString(msg, -getWidth() / 2, getHeight() / 3);
         g2.setTransform(tmp);
       }
@@ -2205,7 +2122,8 @@ class EZText extends EZElement {
       }
       if(match){
         fontName = name;
-        dFont = new Font(fontName, Font.PLAIN, fontSize);
+        EZ.app.setFont(new Font(fontName, Font.PLAIN, fontSize));
+        dFont = EZ.app.getFont();
       }
       else {
         System.out.println("ERROR: EZText is unable to use the specified font because it not on this system:" + name);
@@ -2283,27 +2201,16 @@ class EZText extends EZElement {
  *
  */
 class EZImage extends EZElement {
-  //used for drawing.
   protected double xCenter;
   protected double yCenter;
-  //reference to the image file.
   protected BufferedImage img;
   
   protected boolean imgHasFocus;
   protected int xtlf, ytlf, xbrf, ybrf; //x y t(op) or b(ottom) l(eft) or r(ight) f(ocus) values
 
-  // Images are using static values to reduce memory usage. Otherwise, each time something was created there would be
-  // memory set for each object using the image equal to the image size.
   protected static ArrayList<String> usedImageNames = new ArrayList<String>();
   protected static ArrayList<BufferedImage> loadedImages = new ArrayList<BufferedImage>();
 
-  /**
-   * This will check if the given image name has already been loaded into memory. If so, it will return that
-   * BufferedImage, otherwise null.
-   * 
-   * @param imgName to check if was loaded.
-   * @return corresponding BufferedImage or null.
-   */
   protected static BufferedImage checkLoadedImages(String imgName) {
     for (int i = 0; i < usedImageNames.size(); i++) {
       if (usedImageNames.get(i).equals(imgName)) {
@@ -2313,13 +2220,6 @@ class EZImage extends EZElement {
     return null;
   } // end checkLoaded Images
 
-  /**
-   * Try load image will automatically search opened images before trying to allocate memory for an image. Will return a
-   * BufferedImage or null.
-   * 
-   * @param imgName to try to open.
-   * @return the BufferedImage or null.
-   */
   protected static BufferedImage tryLoadImage(String imgName) {
     BufferedImage tempImg = checkLoadedImages(imgName);
     if (tempImg == null) {
@@ -2360,20 +2260,8 @@ class EZImage extends EZElement {
         g2.drawString(err, (int) xCenter - wos / 2, (int) yCenter);
       }
       else {
-        AffineTransform originalG2 = g2.getTransform();
-        AffineTransform thisObjectTransform = EZElement.transformHelper(this, true);
-//        System.out.printf("Starting scale: x: %s, y: %s%n", EZ.getStartingPaintScaleX(), EZ.getStartingPaintScaleY());
-//        thisObjectTransform.setToScale(
-//        		thisObjectTransform.getScaleX() * EZ.getStartingPaintScaleX(),
-//        		thisObjectTransform.getScaleY() * EZ.getStartingPaintScaleY());
-//        thisObjectTransform.setToTranslation(
-//        		thisObjectTransform.getTranslateX() * EZ.getStartingPaintScaleX(),
-//        		thisObjectTransform.getTranslateY() * EZ.getStartingPaintScaleY());
-//        System.out.printf("Starting rotation: x: %s, y: %s%n",
-//        		thisObjectTransform.rota.getStartingPaintScaleX(), EZ.getStartingPaintScaleY());
-//        thisObjectTransform.rotation
-        g2.setTransform(thisObjectTransform);
-        // adjust scale
+        AffineTransform tmp = g2.getTransform();
+        g2.setTransform(EZElement.transformHelper(this));
         if(imgHasFocus) {
           g2.drawImage(img,
               -(xbrf - xtlf)/2, -(ybrf-ytlf)/2,
@@ -2384,7 +2272,7 @@ class EZImage extends EZElement {
         else {
           g2.drawImage(img, -img.getWidth() / 2, -img.getHeight() / 2, null);
         }
-        g2.setTransform(originalG2);
+        g2.setTransform(tmp);
       }
     }
   }// end paint
@@ -3397,15 +3285,6 @@ class EZSound {
     sound.setFramePosition(0);
     sound.loop(Clip.LOOP_CONTINUOUSLY);
   }
-
-  /**
-   * Will return true if this EZSound is playing. Otherwise false.
-   * @return true if playing. Otherwise false.
-   * 
-   */
-  public boolean isPlaying() {
-    return sound.isRunning();
-  }
   
   /** 
    * Returns how many frames are held within this sound file.
@@ -3795,3 +3674,4 @@ class EZGroup extends EZElement {
   }
 
 } // end EZGroup
+

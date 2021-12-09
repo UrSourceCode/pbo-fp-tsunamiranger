@@ -13,14 +13,14 @@ public class Player {
 	
 	// Player stats
 	private EZImage Idle;
-	private EZImage Jump;
-	private EZImage WalkL;
-	private EZImage WalkR;
-	private EZImage Taunt;
+//	private EZImage Jump;
+//	private EZImage WalkL;
+//	private EZImage WalkR;
+//	private EZImage Taunt;
 	private EZImage Attack;
-	private EZImage Dying;
-	private EZImage Right;
-	private EZImage Left;
+//	private EZImage Dying;
+//	private EZImage Right;
+//	private EZImage Left;
 	private int health;
 	
 	
@@ -187,6 +187,6 @@ public class Player {
 			}
 		break;
 		}
-		return 'h';
+		return 'h'; // DUMMY
 	}
 }

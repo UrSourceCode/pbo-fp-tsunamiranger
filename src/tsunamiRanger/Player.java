@@ -1,4 +1,4 @@
- package tsunamiRanger;
+package tsunamiRanger;
 
 import java.awt.event.KeyEvent;
 import java.awt.Color;
@@ -26,6 +26,7 @@ public class Player {
 	
 	private EZImage playerIdle[] = new EZImage[IDLEPICS];
 	private EZImage playerAttack[] = new EZImage [ATTACKPICS];
+	private EZImage playerDying[] = new EZImage [DYINGPICS];
 	
 	//	Player directions
 	private int direction;
@@ -97,6 +98,12 @@ public class Player {
 			
 		}
 		
+		for (int i=0; i < DYINGPICS; i++) {
+			playerIdle[i] = EZ.addImage("assets/Dying/" + i + ".png", posx, posy);
+			playerIdle[i].hide();
+			
+		}
+		
 		
 	}
 	
@@ -121,7 +128,14 @@ public class Player {
 	    }
 	}
 	
-	
+	public void dyingAnimation(int posx, int posy) {
+		translateIdleAnimation(posx, posy);
+	    for (int i = 0; i < DYINGPICS; i++) {
+	    	playerDying[i].show();
+	    	EZ.refreshScreen();
+	    	playerDying[i].hide();
+	    }
+	}
 	
 	public void translateIdleAnimation(int posx, int posy) {
 		for (int i = 0; i < IDLEPICS; i++) {
@@ -132,6 +146,12 @@ public class Player {
 	public void translateAttackAnimation(int posx, int posy) {
 		for (int i = 0; i < ATTACKPICS; i++) {
 			playerAttack[i].translateTo(posx, posy);
+		}
+	}
+	
+	public void translateDyingAnimation(int posx, int posy) {
+		for (int i = 0; i < DYINGPICS; i++) {
+			playerDying[i].translateTo(posx, posy);
 		}
 	}
 	

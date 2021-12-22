@@ -32,13 +32,18 @@ public class Enemy {
 	private static final float SCALINGFACTOR = 2.5f;
 	private static int playerscore[][] = new int[1][2];
 	
+//	public Enemy(int x, int y) {
+//		posx = x;
+//		posy = y;
+//		type = "master";
+//	}
 	
 	public Enemy(int x, int y, String character, int rx, int ry) {
-		if (character == "piranha") {
+		if (character == "helicopter") {
 			posx = x;
 			posy = y;
-			picture = EZ.addImage("", posx, posy);
-			death = EZ.addImage("", posx, posy);
+			picture = EZ.addImage("assets/EnemyHelicopter/EnemyHelicopter.png", posx, posy);
+			death = EZ.addImage("assets/EnemyHelicopter/HelicopterDeath.png", posx, posy);
 			flag = true;
 			rangex = rx;
 			rangey = ry;
@@ -46,15 +51,15 @@ public class Enemy {
 			death.pushToBack();
 			death.hide();
 			setRandomDirection();
-			type = "piranha";
+			type = "helicopter";
 			health = AIRHP;
 		}
 		
-		if (character == "crab") {
+		if (character == "airship") {
 			posx = x;
 			posy = y;
-			picture = EZ.addImage("", posx, posy);
-			death = EZ.addImage("", posx, posy);
+			picture = EZ.addImage("assets/EnemyAirship/EnemyAirship.png", posx, posy);
+			death = EZ.addImage("assets/EnemyAirship/AirshipDeath.png", posx, posy);
 			flag = true;
 			rangex = rx;
 			rangey = ry;
@@ -62,18 +67,60 @@ public class Enemy {
 			death.pushToBack();
 			death.hide();
 			setRandomDirection();
-			type = "crab";
+			type = "airship";
+			health = AIRHP;
+		}
+		
+		if (character == "tank") {
+			posx = x;
+			posy = y;
+			picture = EZ.addImage("assets/EnemyTank/EnemyTank.png", posx, posy);
+			death = EZ.addImage("assets/EnemyTank/TankDeath.png", posx, posy);
+			flag = true;
+			rangex = rx;
+			rangey = ry;
+			alive_death = true;
+			death.pushToBack();
+			death.hide();
+			setRandomDirection();
+			type = "tank";
 			health = GROUNDHP;
+		}
+		
+		if (character == "mecharobot") {
+			posx = x;
+			posy = y;
+			picture = EZ.addImage("assets/EnemyMechaRobot/EnemyMechaRobot.png", posx, posy);
+			death = EZ.addImage("assets/EnemyMechaRobot/MechaRobotDeath.png", posx, posy);
+			flag = true;
+			rangex = rx;
+			rangey = ry;
+			alive_death = true;
+			death.pushToBack();
+			death.hide();
+			setRandomDirection();
+			type = "mecharobot";
+			health = 20;
 		}
 	}
 	
 	public void unitsInit() {
-		if (type == "piranha") {
+		if (type == "airship") {
 			picture.scaleTo(SCALINGFACTOR);
 			death.scaleTo(SCALINGFACTOR);
 		}
 		
-		if (type == "crab") {
+		if (type == "helicopter") {
+			picture.scaleTo(SCALINGFACTOR);
+			death.scaleTo(SCALINGFACTOR);
+		}
+		
+		if (type == "tank") {
+			picture.scaleTo(SCALINGFACTOR);
+			death.scaleTo(SCALINGFACTOR);
+		}
+		
+		if (type == "mecharobot") {
 			picture.scaleTo(SCALINGFACTOR);
 			death.scaleTo(SCALINGFACTOR);
 		}
@@ -92,7 +139,7 @@ public class Enemy {
 	}
 	
 	public void collision() {
-		if (type == "piranha") {
+		if (type == "helicopter") {
 			health -= 2;
 			playerscore[0][0] += 10;
 			
@@ -106,7 +153,35 @@ public class Enemy {
 			}
 		}
 		
-		if (type == "crab") {
+		if (type == "airship") {
+			health -= 2;
+			playerscore[0][0] += 10;
+			
+			if (health <= 0) {
+				translateFirstDeathPictures();
+				deadTrigger();
+			}
+			
+			if (health <= DEATHHP && alive_death == true) {
+				translateSecondDeathPictures();
+			}
+		}
+		
+		if (type == "tank") {
+			health -= 2;
+			playerscore[0][0] += 10;
+			
+			if (health <= 0) {
+				translateFirstDeathPictures();
+				deadTrigger();
+			}
+			
+			if (health <= DEATHHP && alive_death == true) {
+				translateSecondDeathPictures();
+			}
+		}
+		
+		if (type == "mecharobot") {
 			health -= 2;
 			playerscore[0][0] += 10;
 			
@@ -174,14 +249,14 @@ public class Enemy {
 		int ranx = randomGenerator.nextInt(rangex);
 		int rany = randomGenerator.nextInt(rangey);
 		
-		if (type == "piranha") {
+		if (type == "helicopter" || type == "airship") {
 			while (ranx <= HALFX + 200 || rany < 50 || rany > 580) {
 				ranx = randomGenerator.nextInt(rangex);
 				rany = randomGenerator.nextInt(rangey);
 			}
 		}
 		
-		if (type == "crab") {
+		if (type == "tank" || type == "mecharobot") {
 			rany = 500;
 			while (ranx <= HALFX + 200 || rany != 500) {
 				ranx = randomGenerator.nextInt(rangex);
@@ -232,7 +307,7 @@ public class Enemy {
 		}
 	}
 	
-	public int returnDeathCOunter() {
+	public int returnDeathCounter() {
 		return deathcounter;
 	}
 	

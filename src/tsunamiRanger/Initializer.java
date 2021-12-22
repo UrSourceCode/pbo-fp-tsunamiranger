@@ -8,38 +8,35 @@ public class Initializer {
 	private double mapy;               // Current Y position of map
 	private EZImage map;               // Map picture
 	private String type;
-	
+	private EZSound finalwave;         // Sounds
+	private EZSound boss;
+	private EZSound BGM1;
+	private EZSound missionstart;
+	private EZSound BGM2;
 	private boolean beginningflag;     // Flags for various positions
 	private boolean missionstartflag;
 	private boolean alarmflag;         // Final wave flags
 	private boolean finalwaveflag;
 	
 	private EZImage title;             // Player controls
-	private EZImage A;                 // Left
-	private EZImage W;                 // Look up
-	private EZImage S;                 // Crouch
-	private EZImage D;                 // Right
-	private EZImage Space;             // Jump
-	private EZImage J;                 // Knife
-	private EZImage K;                 // Shoot bullets
-	private EZImage L;
-	
 	private EZImage instructions;
-	private EZText attack;
-	private EZText jump;
-	private EZText right;
-	private EZText left;
-	private EZText shoot;
-	private EZText hit;
-	private EZText grenade;
+	private EZImage logo;
 	private EZText P;
 	private EZText O;
+	private EZSound optionsound;
+	
 	
 	public Initializer(String string, double x, double y) {
 		if (string == "map") {
 			mapx = x;
 			mapy = y;
-			map = EZ.addImage("map2.png", 5250, 300);
+			map = EZ.addImage("assets/map.png", 5250, 300);
+			logo = EZ.addImage("assets/LOGO.png", 1460, 40);
+			finalwave = EZ.addSound("assets/Sounds/Finalwave.wav");
+		    boss = EZ.addSound("assets/Sounds/Boss.wav");
+		    BGM1 = EZ.addSound("assets/Sounds/BGM2.wav");
+		    missionstart = EZ.addSound("assets/Sounds/Mission1.wav");
+		    BGM2 = EZ.addSound("assets/Sounds/BGM1.wav");
 			finalwaveflag = true;
 			beginningflag = true;
 			alarmflag = true;
@@ -49,57 +46,74 @@ public class Initializer {
 		}
 		
 		if (string == "control") {
-			instructions = EZ.addImage("assets/button/instruction.png", 750, 60);
-		    attack = EZ.addText(1075, 150, "Attack", Color.white, 50);
-		    jump = EZ.addText(1080, 550, "Jump", Color.white, 35);
-		    left = EZ.addText(250, 420, "Left", Color.white, 35);
-		    right = EZ.addText(750, 420, "Right", Color.white, 35);
-		    
-		    type = "control";
+			 instructions = EZ.addImage("assets/BAR_0.png", 750, 300);
+		     title = EZ.addImage("assets/JUDUL_1.png", 750, 70);
+		     P = EZ.addText(600, 490, "Press 'P' to Pause", Color.white, 20);
+		     O = EZ.addText(890, 490, "Press 'O' to Resume", Color.white, 20);
+		     optionsound = EZ.addSound("assets/Sounds/Optionsscreen.wav");
+		     type = "control";
 		}
 	}
 	
 	public void show() {
 		if (type == "control") {
-			A.show();
-			W.show();
-			S.show();
-			D.show();
-			J.show();
-			K.show();
-			L.show();
 			instructions.show();
-			attack.show();
-			shoot.show();
-			
+			P.show();
+			O.show();
 		}
 	}
+	public void hide() {
+		if (type == "control") {
+			instructions.hide();
+			P.hide();
+			O.hide();
+		}
+	}
+	
+	public void pullToFront() {
+		instructions.pullToFront();
+		P.pullToFront();
+		O.pullToFront();
+	}
+	
+	public void playSound() {
+	    if (type == "control") {
+	    	optionsound.loop();
+	    }
+	}
+
+	  // Stop options screen sound
+	public void stopSound() {
+	    if (type == "control") {
+	    	optionsound.pause();
+	    }
+	}
+		  
 	public void translateObject(double posx, double posy) {
 		if (type == "map") {
-			if (mapx == 1840.0 && beginningflag == true) {
-		        //BGM1.loop();
+			if (mapx == 5249.0 && beginningflag == true) {
+				BGM1.loop();
 		        beginningflag = false;
 		    }
 		      // Mission start sound
-		    if (mapx == 1780.0 && missionstartflag == true) {
-		        //missionstart.play();
+		    if (mapx == 5175.0 && missionstartflag == true) {
 		        missionstartflag = false;
 		    }
 		      // To get this number, x of map - EZ.intialize x -10
 		      // If reach end of map
-		    if (mapx >= -1000)
+		    if (mapx >= -3740)
 		        map.translateTo(mapx -= posx, posy);
-		      // Final wave sounds
-		    if (mapx < -1000 && finalwaveflag == true) {
-//		        finalwave.play();
-//		        boss.play();
-//		        BGM1.stop();
-//		        BGM2.loop();
+		    
+		    if (mapx < -3740 && finalwaveflag == true) {
+		    	finalwave.play();
+		        boss.play();
+		        BGM1.stop();
+		        BGM2.loop();
 		        finalwaveflag = false;
 		    }
 		      // More final wave sounds
 		    if (mapx < -1000 && alarmflag == true) {
-		        //finalwave.play();
+		    	finalwave.play();
 		        alarmflag = false;
 		    }
 		}

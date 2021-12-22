@@ -24,19 +24,22 @@ public class Initializer {
 	private EZImage K;                 // Shoot bullets
 	private EZImage L;
 	
-	private EZText instructions;
+	private EZImage instructions;
 	private EZText attack;
 	private EZText jump;
 	private EZText right;
 	private EZText left;
-	private EZText move;
-	
+	private EZText shoot;
+	private EZText hit;
+	private EZText grenade;
+	private EZText P;
+	private EZText O;
 	
 	public Initializer(String string, double x, double y) {
 		if (string == "map") {
 			mapx = x;
 			mapy = y;
-			map = EZ.addImage("map.jpg", 1800, 600);
+			map = EZ.addImage("map2.png", 5250, 300);
 			finalwaveflag = true;
 			beginningflag = true;
 			alarmflag = true;
@@ -46,16 +49,31 @@ public class Initializer {
 		}
 		
 		if (string == "control") {
-			 instructions = EZ.addText(750, 50, "Instructions", Color.white, 50);
-		     attack = EZ.addText(1075, 150, "Attack", Color.white, 50);
-		     jump = EZ.addText(1080, 550, "Jump", Color.white, 35);
-		     left = EZ.addText(250, 420, "Left", Color.white, 35);
-		     right = EZ.addText(750, 420, "Right", Color.white, 35);
-		     
-		     type = "control";
+			instructions = EZ.addImage("assets/button/instruction.png", 750, 60);
+		    attack = EZ.addText(1075, 150, "Attack", Color.white, 50);
+		    jump = EZ.addText(1080, 550, "Jump", Color.white, 35);
+		    left = EZ.addText(250, 420, "Left", Color.white, 35);
+		    right = EZ.addText(750, 420, "Right", Color.white, 35);
+		    
+		    type = "control";
 		}
 	}
 	
+	public void show() {
+		if (type == "control") {
+			A.show();
+			W.show();
+			S.show();
+			D.show();
+			J.show();
+			K.show();
+			L.show();
+			instructions.show();
+			attack.show();
+			shoot.show();
+			
+		}
+	}
 	public void translateObject(double posx, double posy) {
 		if (type == "map") {
 			if (mapx == 1840.0 && beginningflag == true) {

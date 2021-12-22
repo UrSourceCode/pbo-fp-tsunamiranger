@@ -8,12 +8,12 @@ public class TsunamiRanger {
 		EZ.initialize(1500,600);
 		EZ.setFrameRate(180);
 		
-		Initializer map = new Initializer("map", 1800, 600);
+		Initializer map = new Initializer("map", 5250, 300);
 		Initializer control = new Initializer ("control", 750, 300);
 		boolean pauseflag = true;
 		
 		while (true) {
-			map.translateObject(.5,300);
+			map.translateObject(.0,300);
 			
 			EZ.refreshScreen();
 			

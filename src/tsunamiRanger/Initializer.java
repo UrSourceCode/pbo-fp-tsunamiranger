@@ -60,6 +60,7 @@ public class Initializer {
 			instructions.show();
 			P.show();
 			O.show();
+			title.show();
 		}
 	}
 	public void hide() {
@@ -67,6 +68,7 @@ public class Initializer {
 			instructions.hide();
 			P.hide();
 			O.hide();
+			title.hide();
 		}
 	}
 	
@@ -74,6 +76,7 @@ public class Initializer {
 		instructions.pullToFront();
 		P.pullToFront();
 		O.pullToFront();
+		title.pullToFront();
 	}
 	
 	public void playSound() {

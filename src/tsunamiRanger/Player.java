@@ -51,11 +51,11 @@ public class Player {
 	private static final int RIGHT = 100;
 	
 	// Movement
-	private static final float MOVE_SPEED = 3.5f;
-	private static final float JUMP_SPEED = 4.25f;
-	private static final float LAND_SPEED = 3.75f;
-	private static final int JUMPLENGTH = 140;
-	private static final int DELAY = 4;
+	private static final float MOVE_SPEED = 3.75f;
+	private static final float JUMP_SPEED = 4f;
+	private static final float LAND_SPEED = 4f;
+	private static final int JUMPLENGTH = 160;
+	private static final int DELAY = 3;
 	private static final int HEALTH = 500;
 	
 	
